@@ -12,7 +12,7 @@ const plexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "TechLegal7",
+  title: "LandGuard AI",
   description: "Legal ops platform for modern teams.",
 };
 
@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={plexSans.className}>
         <AppProviders>
           <Header />
-          <main className="mx-auto w-full max-w-6xl px-6 py-10">{children}</main>
+          <main className="w-full px-6 py-10">{children}</main>
           <Footer />
         </AppProviders>
       </body>
