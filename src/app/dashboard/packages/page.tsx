@@ -1,10 +1,5 @@
-import DashboardPlaceholder from "@/components/features/land/DashboardPlaceholder";
+import LandPackages from "@/components/features/land/LandPackages";
 
 export default function PackagesPage() {
-  return (
-    <DashboardPlaceholder
-      title="แพ็กเกจบริการ"
-      description="เปรียบเทียบแพ็กเกจการเฝ้าระวัง การแจ้งเตือน และบริการภาคสนาม"
-    />
-  );
+  return <LandPackages />;
 }

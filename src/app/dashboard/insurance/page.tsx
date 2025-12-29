@@ -1,10 +1,5 @@
-import DashboardPlaceholder from "@/components/features/land/DashboardPlaceholder";
+import LandInsurance from "@/components/features/land/LandInsurance";
 
 export default function InsurancePage() {
-  return (
-    <DashboardPlaceholder
-      title="ประกันภัยที่ดิน"
-      description="ดูความคุ้มครองและการยื่นคำขอประกันข้อพิพาทที่ดิน"
-    />
-  );
+  return <LandInsurance />;
 }
