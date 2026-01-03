@@ -15,6 +15,7 @@ export default function Navbar() {
         { href: '/risk-assessment', label: 'ประเมินความเสี่ยง' },
         { href: '/case-manager', label: 'ผู้จัดการเคส' },
         { href: '/documents', label: 'เอกสาร' },
+        { href: '/subscription', label: 'สมาชิก' },
     ];
 
     return (

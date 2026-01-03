@@ -160,14 +160,14 @@ export default function DocumentsPage() {
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className="flex flex-wrap gap-2">
-                                                    <Link href="/documents/generate">
-                                                        <Button variant="outline" size="sm">
+                                                <div className="grid grid-cols-2 gap-2 w-full md:w-auto min-w-[200px]">
+                                                    <Link href="/documents/generate" className="w-full">
+                                                        <Button variant="outline" size="sm" className="w-full justify-center">
                                                             ดูตัวอย่าง
                                                         </Button>
                                                     </Link>
-                                                    <Link href={doc.pdfUrl} target="_blank">
-                                                        <Button variant="primary" size="sm" icon={<Download className="w-4 h-4" />}>
+                                                    <Link href={doc.pdfUrl} target="_blank" className="w-full">
+                                                        <Button variant="primary" size="sm" icon={<Download className="w-4 h-4" />} className="w-full justify-center">
                                                             ดาวน์โหลด
                                                         </Button>
                                                     </Link>
@@ -194,35 +194,13 @@ export default function DocumentsPage() {
                             </CardBody>
                         </Card>
 
-                        <Card className="animate-slide-up animation-delay-100">
-                            <CardHeader>
-                                <h2 className="text-xl font-semibold">สถานะงานล่าสุด</h2>
-                            </CardHeader>
-                            <CardBody className="space-y-4">
-                                <div className="flex items-start gap-4 rounded-lg border border-gray-100 bg-white p-4">
-                                    <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
-                                        <Clock className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <p className="font-semibold text-navy">กำลังตรวจสอบโดยทนาย</p>
-                                        <p className="text-sm text-text-light">
-                                            เอกสารมาตรฐานของคุณจะได้รับการยืนยันภายใน 24 ชั่วโมง
-                                        </p>
-                                    </div>
-                                    <Badge variant="info">กำลังดำเนินการ</Badge>
-                                </div>
 
-                                <Alert type="info" title="เคล็ดลับการเตรียมเอกสาร">
-                                    ตรวจสอบข้อมูลโฉนดและชื่อผู้มีสิทธิให้ครบถ้วนก่อนส่งให้ทนายตรวจสอบ
-                                </Alert>
-                            </CardBody>
-                        </Card>
                     </div>
 
                     <div className="space-y-6">
                         <Card className="animate-fade-in">
                             <CardHeader className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold">เทมเพลตยอดนิยม</h2>
+                                <h2 className="text-lg font-semibold">เทมเพลตเอกสาร</h2>
                                 <Sparkles className="w-5 h-5 text-gold" />
                             </CardHeader>
                             <CardBody className="space-y-4">

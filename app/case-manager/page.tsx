@@ -18,8 +18,9 @@ import {
     Mail,
     ArrowRight,
     Users,
+    Map,
 } from 'lucide-react';
-import { mockCases, mockDocuments } from '@/lib/mockData';
+import { mockCases, mockDocuments, mockLawyers } from '@/lib/mockData';
 
 const statusConfig = {
     active: { label: 'กำลังดำเนินการ', variant: 'high' },
@@ -223,35 +224,7 @@ export default function CaseManagerPage() {
                             </CardBody>
                         </Card>
 
-                        <Card className="animate-slide-up animation-delay-100">
-                            <CardHeader>
-                                <h2 className="text-xl font-semibold">กำหนดการถัดไป</h2>
-                            </CardHeader>
-                            <CardBody className="space-y-4">
-                                <div className="flex items-start gap-4 rounded-lg border border-gray-100 bg-white p-4">
-                                    <div className="p-2 bg-gold-100 text-gold-700 rounded-lg">
-                                        <Calendar className="w-5 h-5" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="font-semibold text-navy">นัดไกล่เกลี่ยข้อพิพาท</p>
-                                        <p className="text-sm text-text-light">
-                                            {nextMediation
-                                                ? new Date(nextMediation).toLocaleDateString('th-TH', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric',
-                                                })
-                                                : 'ยังไม่มีนัดหมาย'}
-                                        </p>
-                                    </div>
-                                    <Badge variant="info">กำลังจะถึง</Badge>
-                                </div>
 
-                                <Alert type="info" title="คำแนะนำสำหรับการนัดหมาย">
-                                    เตรียมเอกสารหลักฐานและสรุปข้อพิพาทล่วงหน้าเพื่อให้การไกล่เกลี่ยเป็นไปอย่างราบรื่น
-                                </Alert>
-                            </CardBody>
-                        </Card>
                     </div>
 
                     <div className="space-y-6">
@@ -347,9 +320,77 @@ export default function CaseManagerPage() {
                         </Card>
                     </div>
                 </div>
+
+                {/* Recommended Lawyers Section */}
+                <div className="mt-12">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-2xl font-bold text-navy">เครือข่ายทนายความแนะนำ</h2>
+                        <Link href="/legal-network">
+                            <Button variant="ghost">
+                                ดูทั้งหมด <ArrowRight className="w-4 h-4 ml-2" />
+                            </Button>
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {mockLawyers.slice(0, 3).map((lawyer) => (
+                            <Card key={lawyer.lawyerId} hover className="h-full">
+                                <CardBody className="flex flex-col h-full">
+                                    <div className="flex-grow">
+                                        <div className="flex items-start justify-between mb-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-12 h-12 bg-navy rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                                                    {lawyer.name.charAt(0)}
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-semibold text-navy min-h-[3rem] items-center flex">{lawyer.name}</h3>
+                                                    <div className="flex items-center gap-1 text-xs text-text-light">
+                                                        <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full whitespace-nowrap">
+                                                            {lawyer.specialization[0].replace(/_/g, ' ')}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-1 bg-gold-100 px-2 py-1 rounded text-xs font-bold text-gold-700 flex-shrink-0">
+                                                <span>★</span> {lawyer.rating}
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2 text-sm text-text-light mb-6">
+                                            <div className="flex items-center gap-2">
+                                                <Map className="w-4 h-4 flex-shrink-0" />
+                                                <span className="truncate">{lawyer.location.primaryOffice}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Briefcase className="w-4 h-4 flex-shrink-0" />
+                                                <span>ประสบการณ์ {lawyer.yearsOfExperience} ปี</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                                <span>ตอบกลับภายใน {lawyer.responseTime}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-2 mt-auto pt-4 border-t border-gray-50">
+                                        <Link href={`/lawyers/${lawyer.lawyerId}`} className="w-full">
+                                            <Button variant="outline" size="sm" className="w-full justify-center">
+                                                ดูประวัติ
+                                            </Button>
+                                        </Link>
+                                        <Link href={`/messages/${lawyer.lawyerId}`} className="w-full">
+                                            <Button variant="primary" size="sm" className="w-full justify-center" icon={<MessageSquare className="w-4 h-4" />}>
+                                                แชท
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </CardBody>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             <Footer />
-        </div>
+        </div >
     );
 }

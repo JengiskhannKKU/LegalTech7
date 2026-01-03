@@ -244,18 +244,38 @@ export const mockLawyers = [
     {
         lawyerId: 'LAW-0456',
         name: 'ทนายความ สมศักดิ์ มีประสบการณ์',
+        image: '/images/lawyer-1.jpg', // Placeholder
+        verified: true,
+        firm: 'สำนักงานกฎหมายสมศักดิ์และเพื่อน',
         licenseNumber: '12345/2555',
         specialization: ['LAND_LAW', 'CIVIL_LITIGATION'],
+        expertCases: ['ADVERSE_POSSESSION', 'ENCROACHMENT', 'LAND_INHERITANCE'],
+        skills: ['Negotiation', 'Document Review', 'Litigation'],
         yearsOfExperience: 15,
         location: {
             primaryOffice: 'กรุงเทพฯ',
             serviceAreas: ['กรุงเทพฯ', 'นนทบุรี', 'ปทุมธานี'],
         },
+        languages: ['Thai', 'English'],
+        education: [
+            { degree: 'นิติศาสตรบัณฑิต (เกียรตินิยม)', institution: 'มหาวิทยาลัยธรรมศาสตร์', year: '2008' },
+            { degree: 'เนติบัณฑิตไทย', institution: 'เนติบัณฑิตยสภา', year: '2010' },
+        ],
         fees: {
             consultation: 3000,
             simpleCase: 50000,
             mediumCase: 150000,
             complexCase: 300000,
+            detailed: {
+                consultationRate: '3,000 บาท / ชั่วโมง',
+                documentDrafting: 'เริ่มต้น 5,000 บาท',
+                courtAppearance: '10,000 บาท / นัด',
+            }
+        },
+        availability: {
+            days: ['จันทร์', 'อังคาร', 'พฤหัสบดี'],
+            hours: '09:00 - 17:00',
+            nextAvailable: '2025-01-08T09:00:00'
         },
         rating: 4.7,
         reviewsCount: 89,
@@ -263,22 +283,56 @@ export const mockLawyers = [
         responseTime: '< 24 hours',
         totalCases: 45,
         casesWon: 35,
+        landCasesHandled: 30,
+        reviews: [
+            {
+                id: 'rev-001',
+                user: 'คุณ วิชัย',
+                rating: 5,
+                date: '2024-11-20',
+                comment: 'ให้คำแนะนำดีมากครับ เข้าใจง่าย ช่วยแก้ปัญหาเรื่องที่ดินมรดกได้จบจริงๆ'
+            },
+            {
+                id: 'rev-002',
+                user: 'คุณ ปราณี',
+                rating: 4,
+                date: '2024-10-15',
+                comment: 'ทำงานรวดเร็ว มืออาชีพค่ะ'
+            }
+        ]
     },
     {
         lawyerId: 'LAW-0789',
         name: 'ทนายความ สุภาพร เก่งกาจ',
+        image: '/images/lawyer-2.jpg',
+        verified: true,
         licenseNumber: '67890/2558',
         specialization: ['LAND_LAW', 'INHERITANCE_LAW'],
+        expertCases: ['LAND_INHERITANCE', 'ADR', 'FAMILY_DISPUTE'],
+        skills: ['Mediation', 'Family Law', 'Estate Planning'],
         yearsOfExperience: 10,
         location: {
             primaryOffice: 'นนทบุรี',
             serviceAreas: ['นนทบุรี', 'ปทุมธานี', 'นครปฐม'],
         },
+        languages: ['Thai'],
+        education: [
+            { degree: 'นิติศาสตรบัณฑิต', institution: 'จุฬาลงกรณ์มหาวิทยาลัย', year: '2013' },
+        ],
         fees: {
             consultation: 2500,
             simpleCase: 45000,
             mediumCase: 120000,
             complexCase: 250000,
+            detailed: {
+                consultationRate: '2,500 บาท / ชั่วโมง',
+                documentDrafting: 'เริ่มต้น 4,000 บาท',
+            }
+        },
+        availability: {
+            days: ['จันทร์ - ศุกร์'],
+            hours: '10:00 - 18:00',
+            nextAvailable: '2025-01-07T13:00:00'
         },
         rating: 4.5,
         reviewsCount: 54,
@@ -286,6 +340,100 @@ export const mockLawyers = [
         responseTime: '< 12 hours',
         totalCases: 32,
         casesWon: 26,
+        landCasesHandled: 20,
+        reviews: [
+            {
+                id: 'rev-003',
+                user: 'คุณ สมศักดิ์',
+                rating: 5,
+                date: '2024-12-01',
+                comment: 'ใจเย็น แนะนำละเอียดมากครับ'
+            }
+        ]
+    },
+    {
+        lawyerId: 'LAW-0999',
+        name: 'ทนายความ ปรีชา เชี่ยวชาญ',
+        image: '/images/lawyer-3.jpg',
+        verified: true,
+        firm: 'Preecha & Partners Law Firm',
+        licenseNumber: '99887/2550',
+        specialization: ['CRIMINAL_LAW', 'FRAUD'],
+        expertCases: ['FRAUD', 'TRESPASSING', 'CRIMINAL_DEFENSE'],
+        skills: ['Criminal Defense', 'Investigation', 'Courtroom Strategy'],
+        yearsOfExperience: 18,
+        location: {
+            primaryOffice: 'สมุทปราการ',
+            serviceAreas: ['สมุทรปราการ', 'กรุงเทพฯ'],
+        },
+        languages: ['Thai', 'English', 'Chinese'],
+        education: [
+            { degree: 'นิติศาสตรมหาบัณฑิต (กฎหมายอาญา)', institution: 'รามคำแหง', year: '2005' },
+        ],
+        fees: {
+            consultation: 3500,
+            simpleCase: 60000,
+            mediumCase: 180000,
+            complexCase: 400000,
+            detailed: {
+                consultationRate: '3,500 บาท / ชั่วโมง',
+                documentDrafting: 'เริ่มต้น 8,000 บาท',
+            }
+        },
+        availability: {
+            days: ['ทุกวัน'],
+            hours: '08:00 - 20:00',
+            nextAvailable: '2025-01-06T08:00:00'
+        },
+        rating: 4.8,
+        reviewsCount: 120,
+        successRate: 85,
+        responseTime: '< 6 hours',
+        totalCases: 80,
+        casesWon: 68,
+        landCasesHandled: 15,
+        reviews: []
+    },
+    {
+        lawyerId: 'LAW-1000',
+        name: 'ทนายความ วิไลวรรณ แม่นยำ',
+        image: '/images/lawyer-4.jpg',
+        verified: false,
+        licenseNumber: '11223/2560',
+        specialization: ['CIVIL_LAW', 'FAMILY_LAW'],
+        expertCases: ['CIVIL_DISPUTE', 'CONTRACT_BREACH'],
+        skills: ['Contract Review', 'Civil Litigation'],
+        yearsOfExperience: 7,
+        location: {
+            primaryOffice: 'เชียงใหม่',
+            serviceAreas: ['เชียงใหม่', 'ลำพูน'],
+        },
+        languages: ['Thai', 'Northern Thai'],
+        education: [
+            { degree: 'นิติศาสตรบัณฑิต', institution: 'มหาวิทยาลัยเชียงใหม่', year: '2016' },
+        ],
+        fees: {
+            consultation: 2000,
+            simpleCase: 40000,
+            mediumCase: 100000,
+            complexCase: 200000,
+            detailed: {
+                consultationRate: '2,000 บาท / ชั่วโมง',
+            }
+        },
+        availability: {
+            days: ['เสาร์ - อาทิตย์'],
+            hours: '09:00 - 16:00',
+            nextAvailable: '2025-01-11T09:00:00'
+        },
+        rating: 4.6,
+        reviewsCount: 45,
+        successRate: 80,
+        responseTime: '< 2 hours',
+        totalCases: 25,
+        casesWon: 20,
+        landCasesHandled: 5,
+        reviews: []
     },
 ];
 
@@ -301,6 +449,61 @@ export const mockDocuments = [
         generatedDate: '2024-12-25',
         status: 'ready',
         pdfUrl: '/documents/objection-letter.pdf',
+    },
+    {
+        documentId: 'GEN-DOC-202501-0001',
+        templateId: 'DOC-LEASE-001',
+        landId: 'LND-2025-001234',
+        userId: 'USR-2025-001',
+        documentType: 'LEASE_AGREEMENT',
+        title: 'สัญญาเช่าที่ดินเพื่อเกษตรกรรม',
+        generatedDate: '2025-01-02',
+        status: 'draft',
+        pdfUrl: '/documents/lease-agreement-draft.pdf',
+    },
+    {
+        documentId: 'GEN-DOC-202501-0002',
+        templateId: 'DOC-POA-001',
+        landId: 'LND-2025-001234',
+        userId: 'USR-2025-001',
+        documentType: 'POWER_OF_ATTORNEY',
+        title: 'หนังสือมอบอำนาจดำเนินการกรมที่ดิน',
+        generatedDate: '2025-01-03',
+        status: 'ready',
+        pdfUrl: '/documents/poa-land-dept.pdf',
+    },
+    {
+        documentId: 'GEN-DOC-202412-0055',
+        templateId: 'DOC-WARNING-002',
+        landId: 'LND-2025-001235',
+        userId: 'USR-2025-001',
+        documentType: 'WARNING_NOTICE',
+        title: 'หนังสือแจ้งเตือนให้รื้อถอนสิ่งปลูกสร้างรุกล้ำ',
+        generatedDate: '2024-12-28',
+        status: 'sent',
+        pdfUrl: '/documents/warning-notice-encroachment.pdf',
+    },
+    {
+        documentId: 'GEN-DOC-202411-0112',
+        templateId: 'DOC-SALE-001',
+        landId: 'LND-2025-001236',
+        userId: 'USR-2025-001',
+        documentType: 'PURCHASE_AGREEMENT',
+        title: 'สัญญาจะซื้อจะขายที่ดิน',
+        generatedDate: '2024-11-15',
+        status: 'completed',
+        pdfUrl: '/documents/purchase-agreement-signed.pdf',
+    },
+    {
+        documentId: 'GEN-DOC-202410-0089',
+        templateId: 'DOC-REQUEST-001',
+        landId: 'LND-2025-001234',
+        userId: 'USR-2025-001',
+        documentType: 'BOUNDARY_REQUEST',
+        title: 'คำร้องขอรังวัดสอบเขตโฉนดที่ดิน',
+        generatedDate: '2024-10-30',
+        status: 'submitted',
+        pdfUrl: '/documents/boundary-request-form.pdf',
     },
 ];
 

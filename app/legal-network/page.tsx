@@ -9,6 +9,7 @@ import Input from '@/components/ui/Input';
 import { Search, MapPin, Star, Filter, MessageSquare, Calendar, UserCheck } from 'lucide-react';
 import { mockLawyers } from '@/lib/mockData';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function LegalNetworkPage() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -113,15 +114,17 @@ export default function LegalNetworkPage() {
                                     </div>
                                 </div>
 
-                                <div className="mt-auto grid grid-cols-2 gap-3">
-                                    <Button variant="outline" size="sm" className="w-full">
-                                        <MessageSquare className="w-4 h-4 mr-1" />
-                                        แชท
-                                    </Button>
-                                    <Button variant="primary" size="sm" className="w-full">
-                                        <Calendar className="w-4 h-4 mr-1" />
-                                        นัดปรึกษา
-                                    </Button>
+                                <div className="flex gap-2 mt-auto pt-4 border-t border-gray-50">
+                                    <Link href={`/lawyers/${lawyer.lawyerId}`} className="w-full">
+                                        <Button variant="outline" size="sm" className="w-full justify-center">
+                                            ดูประวัติ
+                                        </Button>
+                                    </Link>
+                                    <Link href={`/messages/${lawyer.lawyerId}`} className="w-full">
+                                        <Button variant="primary" size="sm" className="w-full justify-center" icon={<MessageSquare className="w-4 h-4" />}>
+                                            แชท
+                                        </Button>
+                                    </Link>
                                 </div>
                             </CardBody>
                         </Card>

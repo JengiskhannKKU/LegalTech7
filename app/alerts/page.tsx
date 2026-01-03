@@ -8,9 +8,26 @@ import Badge from '@/components/ui/Badge';
 import { AlertCircle, AlertTriangle, CheckCircle, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
 import { mockAlerts } from '@/lib/mockData';
+import { useState } from 'react';
+
+const ALERT_STATUSES = {
+    new: { label: 'รอตรวจสอบ', color: 'bg-red-100 text-red-700' },
+    in_progress: { label: 'กำลังดำเนินการ', color: 'bg-blue-100 text-blue-700' },
+    legal_action: { label: 'ประสานงานทนาย', color: 'bg-orange-100 text-orange-700' },
+    resolved: { label: 'แก้ไขแล้ว', color: 'bg-green-100 text-green-700' },
+    false_alarm: { label: 'แจ้งเตือนเท็จ', color: 'bg-gray-100 text-gray-700' },
+} as const;
+
+type AlertStatusKey = keyof typeof ALERT_STATUSES;
 
 export default function AlertsPage() {
-    const alerts = mockAlerts;
+    const [alerts, setAlerts] = useState(mockAlerts);
+
+    const handleStatusChange = (alertId: string, newStatus: string) => {
+        setAlerts(prev => prev.map(a =>
+            a.alertId === alertId ? { ...a, status: newStatus as any } : a
+        ));
+    };
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -32,8 +49,8 @@ export default function AlertsPage() {
                             key={alert.alertId}
                             hover={true}
                             className={`border-l-4 ${alert.alertLevel === 'critical' ? 'border-l-red-500' :
-                                    alert.alertLevel === 'high' ? 'border-l-orange-500' :
-                                        'border-l-gold'
+                                alert.alertLevel === 'high' ? 'border-l-orange-500' :
+                                    'border-l-gold'
                                 } animate-fade-in`}
                         >
                             <CardBody>
@@ -41,8 +58,8 @@ export default function AlertsPage() {
                                     {/* Alert Icon & Status */}
                                     <div className="flex-shrink-0">
                                         <div className={`w-14 h-14 rounded-full flex items-center justify-center ${alert.alertLevel === 'critical' ? 'bg-red-100 text-red-600' :
-                                                alert.alertLevel === 'high' ? 'bg-orange-100 text-orange-600' :
-                                                    'bg-gold-100 text-gold-600'
+                                            alert.alertLevel === 'high' ? 'bg-orange-100 text-orange-600' :
+                                                'bg-gold-100 text-gold-600'
                                             }`}>
                                             {alert.alertLevel === 'critical' ? <AlertCircle className="w-8 h-8" /> : <AlertTriangle className="w-8 h-8" />}
                                         </div>
@@ -53,9 +70,18 @@ export default function AlertsPage() {
                                         <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
                                             <div className="flex items-center gap-2">
                                                 <h3 className="text-lg font-bold text-navy">{alert.description}</h3>
-                                                <Badge variant={alert.status === 'new' ? 'critical' : 'success'}>
-                                                    {alert.status === 'new' ? 'ใหม่' : 'รับทราบแล้ว'}
-                                                </Badge>
+                                                <select
+                                                    value={alert.status}
+                                                    onChange={(e) => handleStatusChange(alert.alertId, e.target.value)}
+                                                    className={`text-xs font-bold px-2 py-1 rounded-full border-none focus:ring-2 focus:ring-navy/20 cursor-pointer ${ALERT_STATUSES[alert.status as AlertStatusKey]?.color || 'bg-gray-100'
+                                                        }`}
+                                                >
+                                                    {Object.entries(ALERT_STATUSES).map(([key, config]) => (
+                                                        <option key={key} value={key}>
+                                                            {config.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             </div>
                                             <span className="text-sm text-text-light">
                                                 {new Date(alert.timestamp).toLocaleDateString('th-TH', {
