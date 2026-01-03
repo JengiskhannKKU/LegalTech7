@@ -24,24 +24,12 @@ export default function MediationPage() {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8 mb-16">
-                    <Card className="border-t-4 border-t-navy hover:shadow-lg transition-all animate-slide-up">
-                        <CardBody className="p-8 text-center flex flex-col items-center h-full">
-                            <Video className="w-12 h-12 text-navy mb-4" />
-                            <h3 className="text-xl font-bold text-navy mb-2">นัดหมายเจรจาออนไลน์</h3>
-                            <p className="text-text-light mb-8">
-                                สร้างห้องสนทนาส่วนตัวและเชิญคู่กรณีเข้าร่วมเจรจาผ่านวิดีโอคอล
-                            </p>
-                            <Button variant="primary" className="mt-auto w-full">
-                                <Calendar className="w-4 h-4 mr-2" />
-                                จองคิวนัดหมาย
-                            </Button>
-                        </CardBody>
-                    </Card>
+
 
                     <Card className="border-t-4 border-t-gold hover:shadow-lg transition-all animate-slide-up animation-delay-100">
                         <CardBody className="p-8 text-center flex flex-col items-center h-full">
                             <MessageSquare className="w-12 h-12 text-gold mb-4" />
-                            <h3 className="text-xl font-bold text-navy mb-2">ปรึกษาผู้ไกล่เกลี่ย</h3>
+                            <h3 className="text-xl font-bold text-navy mb-2">ปรึกษาทนายความ</h3>
                             <p className="text-text-light mb-8">
                                 สอบถามขั้นตอนและแนวทางการเจรจากับผู้เชี่ยวชาญก่อนเริ่มกระบวนการจริง
                             </p>

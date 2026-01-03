@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, Bell, User, LogOut, Settings } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,20 +13,18 @@ export default function Navbar() {
         { href: '/dashboard', label: 'แดชบอร์ด' },
         { href: '/my-lands', label: 'ที่ดินของฉัน' },
         { href: '/risk-assessment', label: 'ประเมินความเสี่ยง' },
-        { href: '/alerts', label: 'การแจ้งเตือน' },
         { href: '/case-manager', label: 'ผู้จัดการเคส' },
         { href: '/documents', label: 'เอกสาร' },
     ];
 
     return (
-        <nav className="bg-navy text-white shadow-lg sticky top-0 z-40">
+        <nav className="bg-white text-navy shadow-lg sticky top-0 z-40">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 bg-gold rounded-lg flex items-center justify-center font-bold text-navy text-xl group-hover:scale-110 transition-transform">
-                            LG
-                        </div>
+                        <Image src="/images/Logo.png" alt="Logo" width={40} height={40} />
+
                         <span className="text-xl font-bold hidden sm:block">LandGuard</span>
                     </Link>
 
@@ -45,10 +44,12 @@ export default function Navbar() {
                     {/* Right Section */}
                     <div className="flex items-center gap-3">
                         {/* Notifications */}
-                        <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
-                            <Bell className="w-5 h-5" />
-                            <span className="absolute top-1 right-1 w-2 h-2 bg-gold rounded-full"></span>
-                        </button>
+                        <Link href="/alerts">
+                            <button className="relative p-2 hover:bg-white/10 rounded-lg transition-colors">
+                                <Bell className="w-5 h-5" />
+                                <span className="absolute top-1 right-1 w-2 h-2 bg-gold rounded-full"></span>
+                            </button>
+                        </Link>
 
                         {/* Profile Dropdown */}
                         <div className="relative">
@@ -56,9 +57,7 @@ export default function Navbar() {
                                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                                 className="flex items-center gap-2 p-2 hover:bg-white/10 rounded-lg transition-colors"
                             >
-                                <div className="w-8 h-8 bg-gold rounded-full flex items-center justify-center text-navy font-semibold text-sm">
-                                    ส
-                                </div>
+                                <Image src="/images/Avartar.jpg" alt="Profile" width={40} height={40} className="rounded-full object-cover w-10 h-10" />
                                 <span className="hidden sm:block text-sm font-medium">สมชาย ใจดี</span>
                             </button>
 

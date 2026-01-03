@@ -8,10 +8,12 @@ import { useEffect, useState } from 'react';
 import { DisasterAnalysisService, AIAnalysisResult } from '@/lib/DisasterAnalysisService';
 import { LandMonitoringService, ConstructionChange } from '@/lib/LandMonitoringService';
 import DynamicMap from '@/components/ui/DynamicMap';
-import { AlertTriangle, Info, MapPin, Eye, EyeOff } from 'lucide-react';
+import { AlertTriangle, Info, MapPin, Eye, EyeOff, CheckCircle, ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { mockLands } from '@/lib/mockData';
 
 export default function RiskAssessmentPage() {
+    const [selectedLandId, setSelectedLandId] = useState<string>(mockLands[0].id);
     const [analysisResult, setAnalysisResult] = useState<AIAnalysisResult | null>(null);
     const [scanning, setScanning] = useState(true);
     const [isMonitoring, setIsMonitoring] = useState(false);
@@ -36,16 +38,18 @@ export default function RiskAssessmentPage() {
         }
     };
 
+    const selectedLand = mockLands.find(l => l.id === selectedLandId) || mockLands[0];
+
     useEffect(() => {
         const runAnalysis = async () => {
-            // Simulate scanning "Current Location" or default mock location
-            // In real app: navigator.geolocation.getCurrentPosition(...)
-            const result = await DisasterAnalysisService.analyze(13.7563, 100.5018);
+            setScanning(true);
+            // Simulate scanning selected land
+            const result = await DisasterAnalysisService.analyze(selectedLand.coordinates.lat, selectedLand.coordinates.lng);
             setAnalysisResult(result);
             setScanning(false);
         };
         runAnalysis();
-    }, []);
+    }, [selectedLandId]);
 
     const getRiskColor = (severity: string) => {
         switch (severity) {
@@ -101,11 +105,28 @@ export default function RiskAssessmentPage() {
                         <div className="bg-white/90 backdrop-blur pointer-events-auto p-4 rounded-xl shadow-lg max-w-md mx-auto sm:mx-0 sm:ml-4 sm:mt-4 border border-white/50">
                             <div className="flex items-start justify-between mb-4">
                                 <div>
-                                    <h1 className="text-xl font-bold text-navy flex items-center gap-2">
+                                    <h1 className="text-xl font-bold text-navy flex items-center gap-2 mb-2">
                                         <MapPin className="w-5 h-5 text-gold" />
                                         ผลการวิเคราะห์ที่ดิน
                                     </h1>
-                                    <p className="text-xs text-gray-500 mt-1">
+
+                                    <div className="relative">
+                                        <select
+                                            value={selectedLandId}
+                                            onChange={(e) => setSelectedLandId(e.target.value)}
+                                            className="appearance-none w-full bg-gray-50 border border-navy text-navy py-2 pl-3 pr-8 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-gold/50 cursor-pointer hover:bg-gray-100 transition-colors"
+                                        >
+                                            {mockLands.map(land => (
+                                                <option key={land.id} value={land.id}>
+                                                    {land.deedType} {land.deedNumber} - {land.province}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                                    </div>
+
+                                    <p className="text-xs text-text-light mt-2 flex items-center gap-1">
+                                        <MapPin className="w-3 h-3" />
                                         พิกัด: {analysisResult.coordinates.lat.toFixed(4)}, {analysisResult.coordinates.lng.toFixed(4)}
                                     </p>
                                 </div>
@@ -113,8 +134,8 @@ export default function RiskAssessmentPage() {
                                 <button
                                     onClick={toggleMonitoring}
                                     className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold shadow-sm transition-all ${isMonitoring
-                                            ? 'bg-red-50 text-red-600 border border-red-200 animate-pulse'
-                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        ? 'bg-red-50 text-red-600 border border-red-200 animate-pulse'
+                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                         }`}
                                 >
                                     {isMonitoring ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
@@ -143,13 +164,37 @@ export default function RiskAssessmentPage() {
                             )}
 
                             <div className="flex items-start justify-between mb-4 mt-2">
-                                <Badge variant={analysisResult.overallRiskScore > 60 ? 'critical' : 'success'}>
-                                    Risk Score: {analysisResult.overallRiskScore}
-                                </Badge>
+                                {/* Removed old Badge logic from here, moving to large box below */}
+                            </div>
+
+                            {/* Status Box */}
+                            <div className={`mb-4 p-4 rounded-xl border-l-4 shadow-sm ${analysisResult.overallRiskScore > 60
+                                ? 'bg-red-50 border-red-500'
+                                : 'bg-green-50 border-green-500'
+                                }`}>
+                                <div className="flex items-center gap-3 mb-2">
+                                    {analysisResult.overallRiskScore > 60 ? (
+                                        <AlertTriangle className="w-8 h-8 text-red-500" />
+                                    ) : (
+                                        <CheckCircle className="w-8 h-8 text-green-500" />
+                                    )}
+                                    <div>
+                                        <h2 className={`text-lg font-bold ${analysisResult.overallRiskScore > 60 ? 'text-red-700' : 'text-green-700'
+                                            }`}>
+                                            {analysisResult.overallRiskScore > 60 ? 'มีการลุกล้ำเกิดขึ้น' : 'ที่ดินปลอดภัย'}
+                                        </h2>
+                                        <p className={`text-sm ${analysisResult.overallRiskScore > 60 ? 'text-red-600' : 'text-green-600'
+                                            }`}>
+                                            {analysisResult.overallRiskScore > 60
+                                                ? 'ตรวจพบความเสี่ยงสูงจากการบุกรุกและปัจจัยแวดล้อม'
+                                                : 'ไม่พบความเสี่ยงสำคัญในขณะนี้ สภาพที่ดินปกติ'}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-                                <h3 className="text-sm font-semibold text-gray-700">ความเสี่ยงที่ตรวจพบ</h3>
+                                <h3 className="text-sm font-semibold text-gray-700">ความเสี่ยงที่ตรวจพบเพิ่มเติม</h3>
                                 {analysisResult.riskFactors.map((factor, idx) => (
                                     <div key={idx} className="bg-white border border-gray-100 rounded-lg p-3 shadow-sm">
                                         <div className="flex items-center justify-between mb-2">

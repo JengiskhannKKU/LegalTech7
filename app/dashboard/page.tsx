@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import Alert from '@/components/ui/Alert';
 import Link from 'next/link';
-import { Home, TrendingUp, AlertTriangle, FileText, MapPin, Plus, Eye, ArrowRight } from 'lucide-react';
+import { Home, TrendingUp, AlertTriangle, FileText, MapPin, Plus, Eye, ArrowRight, ShieldCheck, AlertOctagon } from 'lucide-react';
 import { mockLands, mockAlerts, mockUser } from '@/lib/mockData';
 
 export default function DashboardPage() {
@@ -30,44 +30,48 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Stats */}
+        {/* Quick Stats - Key Indicators */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <Card hover={true} className="animate-fade-in bg-green-50 border-green-200">
+            <CardBody>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-green-800 text-sm mb-1 font-medium">ปลอดภัย</p>
+                  <p className="text-4xl font-bold text-green-700">{lands.filter(l => l.riskLevel === 'low').length}</p>
+                </div>
+                <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                  <ShieldCheck className="w-8 h-8 text-green-600" />
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card hover={true} className="animate-fade-in animation-delay-100 bg-red-50 border-red-200">
+            <CardBody>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-red-800 text-sm mb-1 font-medium">มีการลุกล้ำ</p>
+                  <p className="text-4xl font-bold text-red-700">1</p>
+                </div>
+                <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                  <AlertOctagon className="w-8 h-8 text-red-600" />
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+
+        {/* Quick Stats - General */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card hover={true} className="animate-fade-in">
-            <CardBody>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-text-light text-sm mb-1">ที่ดินทั้งหมด</p>
-                  <p className="text-3xl font-bold text-navy">{totalLands}</p>
-                </div>
-                <div className="w-12 h-12 bg-navy-100 rounded-lg flex items-center justify-center">
-                  <Home className="w-6 h-6 text-navy" />
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-
-          <Card hover={true} className="animate-fade-in animation-delay-100">
-            <CardBody>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-text-light text-sm mb-1">การแจ้งเตือนใหม่</p>
-                  <p className="text-3xl font-bold text-gold">{landsWithAlerts}</p>
-                </div>
-                <div className="w-12 h-12 bg-gold-100 rounded-lg flex items-center justify-center">
-                  <AlertTriangle className="w-6 h-6 text-gold" />
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-
           <Card hover={true} className="animate-fade-in animation-delay-200">
             <CardBody>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-text-light text-sm mb-1">ความเสี่ยงสูง</p>
-                  <p className="text-3xl font-bold text-red-600">{highRiskLands}</p>
+                  <p className="text-text-light text-sm mb-1">ที่ดินทั้งหมด</p>
+                  <p className="text-2xl font-bold text-navy">{totalLands}</p>
                 </div>
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-red-600" />
+                <div className="w-10 h-10 bg-navy-100 rounded-lg flex items-center justify-center">
+                  <Home className="w-5 h-5 text-navy" />
                 </div>
               </div>
             </CardBody>
@@ -77,11 +81,39 @@ export default function DashboardPage() {
             <CardBody>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-text-light text-sm mb-1">เอกสารรอดำเนินการ</p>
-                  <p className="text-3xl font-bold text-blue-600">2</p>
+                  <p className="text-text-light text-sm mb-1">การแจ้งเตือนใหม่</p>
+                  <p className="text-2xl font-bold text-gold">{landsWithAlerts}</p>
                 </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-blue-600" />
+                <div className="w-10 h-10 bg-gold-100 rounded-lg flex items-center justify-center">
+                  <AlertTriangle className="w-5 h-5 text-gold" />
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card hover={true} className="animate-fade-in animation-delay-400">
+            <CardBody>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-text-light text-sm mb-1">ความเสี่ยงสูง</p>
+                  <p className="text-2xl font-bold text-orange-600">{highRiskLands}</p>
+                </div>
+                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-orange-600" />
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          <Card hover={true} className="animate-fade-in animation-delay-500">
+            <CardBody>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-text-light text-sm mb-1">เอกสารรอดำเนินการ</p>
+                  <p className="text-2xl font-bold text-blue-600">2</p>
+                </div>
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-blue-600" />
                 </div>
               </div>
             </CardBody>
@@ -126,14 +158,12 @@ export default function DashboardPage() {
                       </div>
                       <Badge
                         variant={
-                          land.riskLevel === 'high'
-                            ? 'critical'
-                            : land.riskLevel === 'medium'
-                              ? 'medium'
-                              : 'low'
+                          land.riskLevel === 'low'
+                            ? 'low'  // green usually
+                            : 'critical' // red usually
                         }
                       >
-                        {land.riskLevel === 'high' ? 'เสี่ยงสูง' : land.riskLevel === 'medium' ? 'เสี่ยงปานกลาง' : 'เสี่ยงต่ำ'}
+                        {land.riskLevel === 'low' ? 'ปลอดภัย' : 'มีการลุกล้ำ'}
                       </Badge>
                     </div>
 
@@ -219,25 +249,27 @@ export default function DashboardPage() {
               <CardHeader>
                 <h2 className="text-xl font-semibold">การดำเนินการด่วน</h2>
               </CardHeader>
-              <CardBody className="space-y-3">
-                <Link href="/risk-assessment">
-                  <Button variant="primary" className="w-full justify-start">
+              <CardBody className="space-y-4">
+                <Link href="/risk-assessment" className="block">
+                  <Button variant="primary" className="w-full justify-center py-4 text-lg shadow-md hover:shadow-lg transition-all">
                     <TrendingUp className="w-5 h-5" />
                     ประเมินความเสี่ยง
                   </Button>
                 </Link>
-                <Link href="/documents/generate">
-                  <Button variant="outline" className="w-full justify-start">
-                    <FileText className="w-5 h-5" />
-                    สร้างเอกสารทางกฎหมาย
-                  </Button>
-                </Link>
-                <Link href="/legal-network">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Home className="w-5 h-5" />
-                    ค้นหาทนายความ
-                  </Button>
-                </Link>
+                <div className="grid grid-cols-2 gap-3">
+                  <Link href="/documents/generate">
+                    <Button variant="outline" className="w-full h-full flex-col gap-2 p-4 text-center hover:bg-navy hover:text-white group">
+                      <FileText className="w-6 h-6 text-navy group-hover:text-white transition-colors" />
+                      <span className="text-xs">สร้างเอกสาร</span>
+                    </Button>
+                  </Link>
+                  <Link href="/legal-network">
+                    <Button variant="outline" className="w-full h-full flex-col gap-2 p-4 text-center hover:bg-navy hover:text-white group">
+                      <Home className="w-6 h-6 text-gold group-hover:text-gold transition-colors" />
+                      <span className="text-xs">หาทนาย</span>
+                    </Button>
+                  </Link>
+                </div>
               </CardBody>
             </Card>
           </div>

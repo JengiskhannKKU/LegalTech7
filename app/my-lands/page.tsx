@@ -83,15 +83,13 @@ export default function MyLandsPage() {
                                 <div className="absolute top-4 right-4">
                                     <Badge
                                         variant={
-                                            land.riskLevel === 'high'
-                                                ? 'critical'
-                                                : land.riskLevel === 'medium'
-                                                    ? 'medium'
-                                                    : 'low'
+                                            land.riskLevel === 'low'
+                                                ? 'low'
+                                                : 'critical'
                                         }
                                         className="shadow-md backdrop-blur-md bg-white/90"
                                     >
-                                        ความเสี่ยง{land.riskLevel === 'high' ? 'สูง' : land.riskLevel === 'medium' ? 'ปานกลาง' : 'ต่ำ'}
+                                        {land.riskLevel === 'low' ? 'ปลอดภัย' : 'มีการลุกล้ำ'}
                                     </Badge>
                                 </div>
                             </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState, useRef, ChangeEvent } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Card, { CardBody, CardHeader } from '@/components/ui/Card';
@@ -7,17 +8,72 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import Alert from '@/components/ui/Alert';
 import Link from 'next/link';
-import { ArrowLeft, MapPin, Calendar, FileText, Share2, Printer, AlertTriangle, CheckCircle, Clock, ShieldAlert, Plus } from 'lucide-react';
-import { mockLands, mockRiskAssessments, mockAlerts } from '@/lib/mockData';
+import { ArrowLeft, MapPin, Calendar, FileText, Share2, Printer, AlertTriangle, CheckCircle, Clock, ShieldAlert, Plus, History, Trash2 } from 'lucide-react';
+import { mockLands, mockRiskAssessments, mockAlerts, mockLandChanges } from '@/lib/mockData';
 import DynamicMap from '@/components/ui/DynamicMap';
+import Modal, { ModalBody, ModalFooter } from '@/components/ui/Modal';
 import { useParams } from 'next/navigation';
+
+interface Document {
+    name: string;
+    size: string;
+    date: string;
+    type: 'pdf' | 'image';
+    url?: string;
+}
 
 export default function LandDetailsPage() {
     // In a real app, use params to fetch data. Here we mock it interactively.
     const params = useParams(); // Should handle if used in real component, but for mock we just pick first
+
+    const [documents, setDocuments] = useState<Document[]>([
+        { name: 'โฉนดที่ดิน.pdf', size: '2.5 MB', date: '15/01/2024', type: 'pdf' },
+        { name: 'สัญญาซื้อขาย.pdf', size: '1.8 MB', date: '10/05/2020', type: 'pdf' }
+    ]);
+
+    // State for delete confirmation
+    const [deleteDocIndex, setDeleteDocIndex] = useState<number | null>(null);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Mock upload - in real app would upload to server
+        const newDoc: Document = {
+            name: file.name,
+            size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
+            date: new Date().toLocaleDateString('th-TH'),
+            type: file.type.includes('pdf') ? 'pdf' : 'image',
+            url: URL.createObjectURL(file)
+        };
+
+        setDocuments(prev => [...prev, newDoc]);
+    };
+
+    const handleDeleteClick = (index: number, e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent opening document when clicking delete
+        setDeleteDocIndex(index);
+    };
+
+    const confirmDelete = () => {
+        if (deleteDocIndex === null) return;
+
+        setDocuments(prev => prev.filter((_, i) => i !== deleteDocIndex));
+        setDeleteDocIndex(null);
+    };
     const land = mockLands[0];
     const riskAssessment = mockRiskAssessments[0];
     const landAlerts = mockAlerts.filter(a => a.landId === land.id);
+    const landChanges = mockLandChanges.filter(c => c.landId === land.id);
+
+    const riskLabels: Record<string, string> = {
+        adversePossession: 'การครอบครองโดยปรปักษ์',
+        encroachment: 'การบุกรุก',
+        inheritanceDispute: 'ข้อพิพาทเรื่องมรดก',
+        rightOfWay: 'ภาระจำยอม/ทางจำเป็น'
+    };
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -37,8 +93,8 @@ export default function LandDetailsPage() {
                                 <h1 className="text-3xl font-bold text-navy">
                                     {land.deedType} {land.deedNumber}
                                 </h1>
-                                <Badge variant={land.riskLevel === 'high' ? 'critical' : 'medium'}>
-                                    ความเสี่ยง{land.riskLevel === 'high' ? 'สูง' : 'ปานกลาง'}
+                                <Badge variant={land.riskLevel === 'low' ? 'low' : 'critical'}>
+                                    {land.riskLevel === 'low' ? 'ปลอดภัย' : 'มีการลุกล้ำ'}
                                 </Badge>
                             </div>
                             <p className="text-text-light flex items-center gap-2">
@@ -48,10 +104,7 @@ export default function LandDetailsPage() {
                         </div>
 
                         <div className="flex gap-3">
-                            <Button variant="outline" icon={<Share2 className="w-4 h-4" />}>
-                                แชร์
-                            </Button>
-                            <Button variant="outline" icon={<Printer className="w-4 h-4" />}>
+                            <Button variant="outline" icon={<Printer className="w-4 h-4" />} onClick={() => window.print()}>
                                 พิมพ์
                             </Button>
                             <Link href="/risk-assessment">
@@ -95,64 +148,6 @@ export default function LandDetailsPage() {
                             />
                         </Card>
 
-                        {/* Risk Assessment Summary */}
-                        <Card>
-                            <CardHeader>
-                                <div className="flex items-center justify-between">
-                                    <h2 className="text-xl font-semibold flex items-center gap-2">
-                                        <ShieldAlert className="w-5 h-5 text-navy" />
-                                        ผลการประเมินความเสี่ยง
-                                    </h2>
-                                    <span className="text-sm text-text-light">
-                                        ประเมินล่าสุด: {new Date(riskAssessment.assessmentDate).toLocaleDateString('th-TH')}
-                                    </span>
-                                </div>
-                            </CardHeader>
-                            <CardBody>
-                                <div className="mb-6 flex items-center gap-8">
-                                    {/* Gauge visual placeholder */}
-                                    <div className="w-32 h-32 rounded-full border-8 border-gold flex items-center justify-center relative">
-                                        <div className="text-center">
-                                            <span className="text-3xl font-bold text-navy">{riskAssessment.overallRiskScore}</span>
-                                            <span className="block text-xs uppercase text-text-light">คะแนนเสี่ยง</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-1 space-y-3">
-                                        {Object.entries(riskAssessment.riskBreakdown).map(([key, data]) => (
-                                            <div key={key}>
-                                                <div className="flex justify-between text-sm mb-1">
-                                                    <span className="capitalize text-text">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                                                    <span className={`font-medium ${data.level === 'high' ? 'text-red-500' : 'text-gold'}`}>{data.score}%</span>
-                                                </div>
-                                                <div className="w-full bg-gray-100 rounded-full h-2">
-                                                    <div
-                                                        className={`h-2 rounded-full ${data.level === 'high' ? 'bg-red-500' : data.level === 'medium' ? 'bg-gold' : 'bg-green-500'}`}
-                                                        style={{ width: `${data.score}%` }}
-                                                    ></div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="border-t border-gray-100 pt-6">
-                                    <h3 className="font-semibold mb-4">คำแนะนำที่ต้องดำเนินการ</h3>
-                                    <div className="space-y-3">
-                                        {riskAssessment.recommendations.map((rec, i) => (
-                                            <div key={i} className="flex gap-3 p-3 bg-gray-50 rounded-lg">
-                                                <div className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${rec.urgency === 'urgent' ? 'bg-red-500' : 'bg-gold'}`} />
-                                                <div>
-                                                    <p className="font-medium text-navy">{rec.action}</p>
-                                                    <p className="text-sm text-text-light">{rec.reason}</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </CardBody>
-                        </Card>
-
                         {/* Alert History */}
                         <Card>
                             <CardHeader>
@@ -191,6 +186,68 @@ export default function LandDetailsPage() {
                                 </div>
                             </CardBody>
                         </Card>
+
+                        {/* Land Change Timeline */}
+                        <Card>
+                            <CardHeader>
+                                <h2 className="text-xl font-semibold flex items-center gap-2">
+                                    <History className="w-5 h-5 text-navy" />
+                                    ประวัติการเปลี่ยนแปลงสภาพที่ดิน
+                                </h2>
+                            </CardHeader>
+                            <CardBody>
+                                <div className="relative border-l-2 border-gray-200 ml-3 space-y-8 pl-6 py-2">
+                                    {landChanges.map((change, index) => (
+                                        <div key={change.id} className="relative">
+                                            {/* Dot */}
+                                            <div
+                                                className={`absolute -left-[31px] w-4 h-4 rounded-full border-2 border-white box-content
+                                                ${change.changePercentage > 0 ? 'bg-red-500' : 'bg-green-500'}`}
+                                            ></div>
+
+                                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                                                <div>
+                                                    <p className="font-semibold text-navy text-lg">{change.description}</p>
+                                                    <div className="flex items-center gap-2 text-sm text-text-light mt-1">
+                                                        <Calendar className="w-3 h-3" />
+                                                        {new Date(change.changeDate).toLocaleDateString('th-TH', {
+                                                            year: 'numeric',
+                                                            month: 'long',
+                                                            day: 'numeric',
+                                                        })}
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-4">
+                                                    {change.changePercentage > 0 && (
+                                                        <Badge variant="critical">
+                                                            เปลี่ยน {change.changePercentage}%
+                                                        </Badge>
+                                                    )}
+                                                    {change.changePercentage === 0 && (
+                                                        <Badge variant="success">
+                                                            ปกติ
+                                                        </Badge>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {change.coordinates && (
+                                                <div className="mt-3 p-3 bg-gray-50 rounded-lg flex items-center gap-3 text-sm">
+                                                    <MapPin className="w-4 h-4 text-text-light" />
+                                                    <span className="text-navy font-medium">
+                                                        พิกัด: {change.coordinates.lat.toFixed(6)}, {change.coordinates.lng.toFixed(6)}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </CardBody>
+                        </Card>
+
+
+
+
                     </div>
 
                     {/* Sidebar Info */}
@@ -205,17 +262,10 @@ export default function LandDetailsPage() {
                                     <p className="font-semibold text-lg">{land.landSizeRai}-{land.landSizeNgan}-{land.landSizeWa} ไร่</p>
                                 </div>
                                 <div>
-                                    <label className="text-text-light block text-xs mb-1">ราคาประเมิน</label>
-                                    <p className="font-semibold">{land.estimatedValue.toLocaleString()} บาท</p>
-                                </div>
-                                <div>
                                     <label className="text-text-light block text-xs mb-1">วันที่ได้มา</label>
                                     <p className="font-medium">{new Date(land.acquisitionDate).toLocaleDateString('th-TH')}</p>
                                 </div>
-                                <div>
-                                    <label className="text-text-light block text-xs mb-1">วิธีการได้มา</label>
-                                    <Badge variant="info">{land.acquisitionMethod}</Badge>
-                                </div>
+
                             </CardBody>
                         </Card>
 
@@ -225,22 +275,36 @@ export default function LandDetailsPage() {
                             </CardHeader>
                             <CardBody>
                                 <ul className="space-y-3">
-                                    <li className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer group">
-                                        <FileText className="w-8 h-8 text-red-500" />
-                                        <div className="flex-1 overflow-hidden">
-                                            <p className="font-medium truncate group-hover:text-navy transition-colors">โฉนดที่ดิน.pdf</p>
-                                            <p className="text-xs text-text-light">2.5 MB • 15/01/2024</p>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer group">
-                                        <FileText className="w-8 h-8 text-blue-500" />
-                                        <div className="flex-1 overflow-hidden">
-                                            <p className="font-medium truncate group-hover:text-navy transition-colors">สัญญาซื้อขาย.pdf</p>
-                                            <p className="text-xs text-text-light">1.8 MB • 10/05/2020</p>
-                                        </div>
-                                    </li>
+                                    {documents.map((doc, index) => (
+                                        <li key={index} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded cursor-pointer group" onClick={() => window.open(doc.url, '_blank')}>
+                                            <FileText className={`w-8 h-8 ${doc.type === 'pdf' ? 'text-red-500' : 'text-blue-500'}`} />
+                                            <div className="flex-1 overflow-hidden">
+                                                <p className="font-medium truncate group-hover:text-navy transition-colors">{doc.name}</p>
+                                                <p className="text-xs text-text-light">{doc.size} • {doc.date}</p>
+                                            </div>
+                                            <button
+                                                className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all opacity-0 group-hover:opacity-100 no-print"
+                                                onClick={(e) => handleDeleteClick(index, e)}
+                                                title="ลบเอกสาร"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </li>
+                                    ))}
                                 </ul>
-                                <Button variant="outline" size="sm" className="w-full mt-4">
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    className="hidden"
+                                    onChange={handleFileUpload}
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                />
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="w-full mt-4"
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
                                     <Plus className="w-4 h-4" />
                                     เพิ่มเอกสาร
                                 </Button>
@@ -267,6 +331,28 @@ export default function LandDetailsPage() {
                 </div>
             </div>
             <Footer />
+
+            {/* Delete Confirmation Modal */}
+            <Modal
+                isOpen={deleteDocIndex !== null}
+                onClose={() => setDeleteDocIndex(null)}
+                title="ยืนยันการลบเอกสาร"
+                size="sm"
+            >
+                <ModalBody>
+                    <p className="text-gray-600">
+                        คุณแน่ใจหรือไม่ที่จะลบเอกสารนี้? การกระทำนี้ไม่สามารถย้อนกลับได้
+                    </p>
+                </ModalBody>
+                <ModalFooter>
+                    <Button variant="ghost" onClick={() => setDeleteDocIndex(null)}>
+                        ยกเลิก
+                    </Button>
+                    <Button variant="danger" onClick={confirmDelete}>
+                        ลบเอกสาร
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }

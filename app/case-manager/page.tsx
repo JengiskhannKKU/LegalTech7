@@ -54,11 +54,7 @@ export default function CaseManagerPage() {
                                 สร้างเอกสารใหม่
                             </Button>
                         </Link>
-                        <Link href="/mediation">
-                            <Button variant="outline" icon={<MessageSquare className="w-4 h-4" />}>
-                                นัดไกล่เกลี่ย
-                            </Button>
-                        </Link>
+
                     </div>
                 </div>
 
@@ -66,8 +62,8 @@ export default function CaseManagerPage() {
                     <Card className="bg-navy text-white animate-fade-in">
                         <CardBody className="flex items-center justify-between">
                             <div>
-                                <p className="text-blue-200 text-sm mb-1">คดีที่กำลังดูแล</p>
-                                <p className="text-4xl font-bold">{activeCases.length}</p>
+                                <p className="text-text-light text-sm mb-1">คดีที่กำลังดูแล</p>
+                                <p className="text-4xl font-bold text-navy">{activeCases.length}</p>
                             </div>
                             <div className="p-3 bg-white/10 rounded-lg">
                                 <Briefcase className="w-8 h-8" />
@@ -124,7 +120,7 @@ export default function CaseManagerPage() {
                     <div className="lg:col-span-2 space-y-6">
                         <Card className="animate-slide-up">
                             <CardHeader className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold">คดีที่กำลังดำเนินการ</h2>
+                                <h2 className="text-xl font-semibold">กำลังดำเนินการ</h2>
                                 <Link href="/cases">
                                     <Button variant="ghost" size="sm">
                                         ดูทั้งหมด
@@ -204,11 +200,7 @@ export default function CaseManagerPage() {
                                                         ดูรายละเอียดคดี
                                                     </Button>
                                                 </Link>
-                                                <Link href="/mediation">
-                                                    <Button variant="outline" size="sm">
-                                                        นัดไกล่เกลี่ย
-                                                    </Button>
-                                                </Link>
+
                                             </div>
                                         </div>
                                     );
@@ -330,25 +322,27 @@ export default function CaseManagerPage() {
                             <CardHeader>
                                 <h2 className="text-lg font-semibold">การดำเนินการด่วน</h2>
                             </CardHeader>
-                            <CardBody className="space-y-3">
-                                <Link href="/cases">
-                                    <Button variant="primary" className="w-full justify-start">
+                            <CardBody className="space-y-4">
+                                <Link href="/cases" className="block">
+                                    <Button variant="primary" className="w-full justify-center py-4 text-lg shadow-md hover:shadow-lg transition-all">
                                         <Briefcase className="w-5 h-5" />
                                         ตรวจสอบคดีทั้งหมด
                                     </Button>
                                 </Link>
-                                <Link href="/reports">
-                                    <Button variant="outline" className="w-full justify-start">
-                                        <FileText className="w-5 h-5" />
-                                        ดูรายงานความคืบหน้า
-                                    </Button>
-                                </Link>
-                                <Link href="/legal-network">
-                                    <Button variant="outline" className="w-full justify-start">
-                                        <MessageSquare className="w-5 h-5" />
-                                        ขอคำปรึกษาเพิ่มเติม
-                                    </Button>
-                                </Link>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Link href="/reports">
+                                        <Button variant="outline" className="w-full h-full flex-col gap-2 p-4 text-center hover:bg-navy hover:text-white group">
+                                            <FileText className="w-6 h-6 text-navy group-hover:text-white transition-colors" />
+                                            <span className="text-xs">ดูรายงาน</span>
+                                        </Button>
+                                    </Link>
+                                    <Link href="/legal-network">
+                                        <Button variant="outline" className="w-full h-full flex-col gap-2 p-4 text-center hover:bg-navy hover:text-white group">
+                                            <MessageSquare className="w-6 h-6 text-gold group-hover:text-gold transition-colors" />
+                                            <span className="text-xs">ขอคำปรึกษา</span>
+                                        </Button>
+                                    </Link>
+                                </div>
                             </CardBody>
                         </Card>
                     </div>

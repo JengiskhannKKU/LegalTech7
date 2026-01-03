@@ -192,9 +192,6 @@ export default function RiskAssessmentResultPage() {
                     <Button variant="outline" icon={<Download className="w-4 h-4" />}>
                         ดาวน์โหลด PDF
                     </Button>
-                    <Button variant="outline" icon={<Share2 className="w-4 h-4" />}>
-                        แชร์ผลลัพธ์
-                    </Button>
                     <Link href="/insurance">
                         <Button variant="primary">
                             ดูแผนประกันคุ้มครอง

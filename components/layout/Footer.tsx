@@ -3,21 +3,21 @@
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import Image from 'next/image';
+
 
 export default function Footer() {
     return (
-        <footer className="bg-navy text-white mt-20">
+        <footer className="bg-white text-navy mt-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* About */}
                     <div>
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 bg-gold rounded-lg flex items-center justify-center font-bold text-navy text-xl">
-                                LG
-                            </div>
+                            <Image src="/images/Logo.png" alt="Logo" width={40} height={40} />
                             <span className="text-xl font-bold">LandGuard</span>
                         </div>
-                        <p className="text-sm text-gray-300 leading-relaxed">
+                        <p className="text-sm text-navy leading-relaxed">
                             เปลี่ยนกฎหมายที่ดินจากแบบเชิงรับเป็นเชิงป้องกัน ช่วยให้เจ้าของที่ดินบริหารจัดการความเสี่ยงทางกฎหมายได้อย่างมีประสิทธิภาพ
                         </p>
                     </div>
@@ -26,10 +26,10 @@ export default function Footer() {
                     <div>
                         <h3 className="font-semibold text-lg mb-4">เมนูหลัก</h3>
                         <ul className="space-y-2 text-sm">
-                            <li><Link href="/about" className="text-gray-300 hover:text-gold transition-colors">เกี่ยวกับเรา</Link></li>
-                            <li><Link href="/pricing" className="text-gray-300 hover:text-gold transition-colors">แผนบริการ</Link></li>
-                            <li><Link href="/legal-network" className="text-gray-300 hover:text-gold transition-colors">เครือข่ายทนายความ</Link></li>
-                            <li><Link href="/insurance" className="text-gray-300 hover:text-gold transition-colors">ประกันภัย</Link></li>
+                            <li><Link href="/about" className="text-navy hover:text-gold transition-colors">เกี่ยวกับเรา</Link></li>
+                            <li><Link href="/pricing" className="text-navy hover:text-gold transition-colors">แผนบริการ</Link></li>
+                            <li><Link href="/legal-network" className="text-navy hover:text-gold transition-colors">เครือข่ายทนายความ</Link></li>
+                            <li><Link href="/insurance" className="text-navy hover:text-gold transition-colors">ประกันภัย</Link></li>
                         </ul>
                     </div>
 
@@ -37,17 +37,17 @@ export default function Footer() {
                     <div>
                         <h3 className="font-semibold text-lg mb-4">ช่วยเหลือ</h3>
                         <ul className="space-y-2 text-sm">
-                            <li><Link href="/help" className="text-gray-300 hover:text-gold transition-colors">ศูนย์ช่วยเหลือ</Link></li>
-                            <li><Link href="/faq" className="text-gray-300 hover:text-gold transition-colors">คำถามที่พบบ่อย</Link></li>
-                            <li><Link href="/privacy" className="text-gray-300 hover:text-gold transition-colors">นโยบายความเป็นส่วนตัว</Link></li>
-                            <li><Link href="/terms" className="text-gray-300 hover:text-gold transition-colors">ข้อกำหนดการใช้งาน</Link></li>
+                            <li><Link href="/help" className="text-navy hover:text-gold transition-colors">ศูนย์ช่วยเหลือ</Link></li>
+                            <li><Link href="/faq" className="text-navy hover:text-gold transition-colors">คำถามที่พบบ่อย</Link></li>
+                            <li><Link href="/privacy" className="text-navy hover:text-gold transition-colors">นโยบายความเป็นส่วนตัว</Link></li>
+                            <li><Link href="/terms" className="text-navy hover:text-gold transition-colors">ข้อกำหนดการใช้งาน</Link></li>
                         </ul>
                     </div>
 
                     {/* Contact */}
                     <div>
                         <h3 className="font-semibold text-lg mb-4">ติดต่อเรา</h3>
-                        <ul className="space-y-3 text-sm text-gray-300">
+                        <ul className="space-y-3 text-sm text-navy">
                             <li className="flex items-start gap-2">
                                 <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
                                 <span>123 ถนนสุขุมวิท กรุงเทพฯ 10110</span>
