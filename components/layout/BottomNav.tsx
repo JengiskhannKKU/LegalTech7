@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Map, ShieldAlert, Bell, Menu, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, Map, ShieldAlert, Bell, Menu } from 'lucide-react';
 
 export default function BottomNav() {
     const pathname = usePathname();
@@ -10,7 +10,6 @@ export default function BottomNav() {
     const navItems = [
         { href: '/dashboard', label: 'แดชบอร์ด', icon: LayoutDashboard },
         { href: '/my-lands', label: 'ที่ดิน', icon: Map },
-        { href: '/forecast', label: 'ทำนาย', icon: TrendingUp },
         { href: '/risk-assessment', label: 'ประเมินภัย', icon: ShieldAlert },
         { href: '/alerts', label: 'แจ้งเตือน', icon: Bell },
     ];

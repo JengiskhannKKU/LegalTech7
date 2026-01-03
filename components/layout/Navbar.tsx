@@ -11,7 +11,6 @@ export default function Navbar() {
     const navLinks = [
         { href: '/dashboard', label: 'แดชบอร์ด' },
         { href: '/my-lands', label: 'ที่ดินของฉัน' },
-        { href: '/forecast', label: 'พยากรณ์ AI' },
         { href: '/risk-assessment', label: 'ประเมินความเสี่ยง' },
         { href: '/alerts', label: 'การแจ้งเตือน' },
         { href: '/case-manager', label: 'ผู้จัดการเคส' },
