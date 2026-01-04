@@ -59,7 +59,7 @@ export default function CaseManagerPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
                     <Card className="bg-navy text-white animate-fade-in">
                         <CardBody className="flex items-center justify-between">
                             <div>
@@ -75,36 +75,16 @@ export default function CaseManagerPage() {
                     <Card className="animate-fade-in animation-delay-100">
                         <CardBody className="flex items-center justify-between">
                             <div>
-                                <p className="text-text-light text-sm mb-1">นัดหมายถัดไป</p>
-                                <p className="text-xl font-bold text-navy">
-                                    {nextMediation
-                                        ? new Date(nextMediation).toLocaleDateString('th-TH', {
-                                            day: 'numeric',
-                                            month: 'short',
-                                            year: 'numeric',
-                                        })
-                                        : '-'}
-                                </p>
+                                <p className="text-text-light text-sm mb-1">เอกสารพร้อมใช้</p>
+                                <p className="text-4xl font-bold text-navy">{documentsReady}</p>
                             </div>
-                            <div className="p-3 bg-gold-100 text-gold-700 rounded-lg">
-                                <Calendar className="w-8 h-8" />
+                            <div className="p-3 bg-blue-100 text-blue-600 rounded-lg">
+                                <FileText className="w-4 h-4" />
                             </div>
                         </CardBody>
                     </Card>
 
                     <Card className="animate-fade-in animation-delay-200">
-                        <CardBody className="flex items-center justify-between">
-                            <div>
-                                <p className="text-text-light text-sm mb-1">เอกสารพร้อมใช้</p>
-                                <p className="text-4xl font-bold text-navy">{documentsReady}</p>
-                            </div>
-                            <div className="p-3 bg-blue-100 text-blue-600 rounded-lg">
-                                <FileText className="w-8 h-8" />
-                            </div>
-                        </CardBody>
-                    </Card>
-
-                    <Card className="animate-fade-in animation-delay-300">
                         <CardBody className="flex items-center justify-between">
                             <div>
                                 <p className="text-text-light text-sm mb-1">เวลาตอบกลับเฉลี่ย</p>
