@@ -75,7 +75,7 @@ const ZoomControls = () => {
     );
 };
 
-const MapComponent = ({ center, zoom = 13, markers = [], circles = [], riskZones = [], constructionChanges = [], className = '', minimal = false }: MapProps) => {
+const MapComponent = ({ center, zoom = 16, markers = [], circles = [], riskZones = [], constructionChanges = [], className = '', minimal = false }: MapProps) => {
     const [mapType, setMapType] = useState<'streets' | 'satellite'>('satellite');
 
     return (
