@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Maximize, Layers, AlertTriangle } from 'lucide-react';
+import { Maximize, Layers, AlertTriangle, Plus, Minus } from 'lucide-react';
 
 // Fix Leaflet default icon issue
 const iconUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png';
@@ -43,8 +43,40 @@ const MapResizer = () => {
     return null;
 };
 
+// Custom Zoom Controls Component
+const ZoomControls = () => {
+    const map = useMap();
+
+    const handleZoomIn = () => {
+        map.zoomIn();
+    };
+
+    const handleZoomOut = () => {
+        map.zoomOut();
+    };
+
+    return (
+        <div className="absolute bottom-4 right-4 z-[500] flex flex-col gap-2">
+            <button
+                onClick={handleZoomIn}
+                className="bg-white hover:bg-gray-50 text-navy p-3 rounded-lg shadow-lg border border-gray-200 transition-all hover:scale-110"
+                aria-label="Zoom in"
+            >
+                <Plus className="w-6 h-6" />
+            </button>
+            <button
+                onClick={handleZoomOut}
+                className="bg-white hover:bg-gray-50 text-navy p-3 rounded-lg shadow-lg border border-gray-200 transition-all hover:scale-110"
+                aria-label="Zoom out"
+            >
+                <Minus className="w-6 h-6" />
+            </button>
+        </div>
+    );
+};
+
 const MapComponent = ({ center, zoom = 13, markers = [], circles = [], riskZones = [], constructionChanges = [], className = '', minimal = false }: MapProps) => {
-    const [mapType, setMapType] = useState<'streets' | 'satellite'>('streets');
+    const [mapType, setMapType] = useState<'streets' | 'satellite'>('satellite');
 
     return (
         <div className={`relative isolate ${className}`}>
@@ -53,6 +85,7 @@ const MapComponent = ({ center, zoom = 13, markers = [], circles = [], riskZones
                 center={center}
                 zoom={zoom}
                 scrollWheelZoom={false}
+                zoomControl={false}
                 style={{ height: '100%', width: '100%', zIndex: 0 }}
             >
                 <MapResizer />
@@ -117,6 +150,9 @@ const MapComponent = ({ center, zoom = 13, markers = [], circles = [], riskZones
                         </Popup>
                     </Marker>
                 ))}
+
+                {/* Custom Zoom Controls */}
+                {!minimal && <ZoomControls />}
             </MapContainer>
 
             {constructionChanges.length > 0 && (
@@ -130,19 +166,27 @@ const MapComponent = ({ center, zoom = 13, markers = [], circles = [], riskZones
 
             {/* Map Controls */}
             {!minimal && (
-                <div className="absolute top-4 right-4 z-[500] bg-white p-2 rounded shadow-md flex gap-2">
-                    <button
-                        onClick={() => setMapType('streets')}
-                        className={`p-2 text-xs font-bold rounded ${mapType === 'streets' ? 'bg-navy text-white' : 'bg-gray-100 text-text'}`}
-                    >
-                        แผนที่
-                    </button>
-                    <button
-                        onClick={() => setMapType('satellite')}
-                        className={`p-2 text-xs font-bold rounded ${mapType === 'satellite' ? 'bg-navy text-white' : 'bg-gray-100 text-text'}`}
-                    >
-                        ดาวเทียม
-                    </button>
+                <div className="absolute top-4 right-4 z-[500] bg-white rounded-lg shadow-lg border border-gray-200">
+                    <div className="flex flex-col gap-1 p-2">
+                        <button
+                            onClick={() => setMapType('satellite')}
+                            className={`px-4 py-2 text-sm font-semibold rounded transition-all ${mapType === 'satellite'
+                                ? 'bg-navy text-white shadow-md'
+                                : 'bg-white text-navy hover:bg-gray-50'
+                                }`}
+                        >
+                            🛰️ ดาวเทียม
+                        </button>
+                        <button
+                            onClick={() => setMapType('streets')}
+                            className={`px-4 py-2 text-sm font-semibold rounded transition-all ${mapType === 'streets'
+                                ? 'bg-navy text-white shadow-md'
+                                : 'bg-white text-navy hover:bg-gray-50'
+                                }`}
+                        >
+                            🗺️ แผนที่
+                        </button>
+                    </div>
                 </div>
             )}
 
