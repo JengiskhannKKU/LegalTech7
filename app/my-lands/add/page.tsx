@@ -207,7 +207,7 @@ export default function AddLandPage() {
                 )}
 
                 {error && (
-                    <Alert type="error" className="mb-6">
+                    <Alert type="critical" className="mb-6">
                         {error}
                     </Alert>
                 )}
